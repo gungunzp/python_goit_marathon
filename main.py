@@ -27,7 +27,7 @@ player_move_right = [1, 0]
 enemy_size = (30, 30)
 enemy = pygame.Surface(enemy_size)
 enemy.fill(COLOR_BLUE)
-enemy_rect = enemy.get_rect()
+enemy_rect = pygame.Rect(WIDTH, 100, *enemy_size)
 enemy_move = [-1, 0]
 
 playing = True
@@ -49,22 +49,11 @@ while playing:
     if keys[K_RIGHT] and player_rect.right < WIDTH:
         player_rect = player_rect.move(player_move_right)
 
-    # if player_rect.bottom >= HEIGHT:
-    #     player_speed = random.choice(([1, -1], [-1, -1]))
-
-    # if player_rect.top <= 0:
-    #     player_speed = random.choice(([-1, 1], [1, 1]))
-
-    # if player_rect.right >= WIDTH:
-    #     player_speed = random.choice(([-1, -1], [-1, 1]))
-
-    # if player_rect.left <= 0:
-    #     player_speed = random.choice(([1, 1], [1, -1]))
+    enemy_rect = enemy_rect.move(enemy_move)
 
     main_display.blit(player, player_rect)
 
     main_display.blit(enemy, enemy_rect)
 
-    # player_rect = player_rect.move(player_speed)
 
     pygame.display.flip()
