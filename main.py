@@ -1,7 +1,7 @@
 import random
 
 import pygame
-from pygame.constants import QUIT
+from pygame.constants import QUIT, K_DOWN
 
 pygame.init()
 
@@ -32,20 +32,25 @@ while playing:
     
     main_display.fill(COLOR_BLACK)
 
-    if player_rect.bottom >= HEIGHT:
-        player_speed = random.choice(([1, -1], [-1, -1]))
+    keys = pygame.key.get_pressed()
 
-    if player_rect.top <= 0:
-        player_speed = random.choice(([-1, 1], [1, 1]))
+    if keys[K_DOWN]:
+        print("Pressed")
 
-    if player_rect.right >= WIDTH:
-        player_speed = random.choice(([-1, -1], [-1, 1]))
+    # if player_rect.bottom >= HEIGHT:
+    #     player_speed = random.choice(([1, -1], [-1, -1]))
 
-    if player_rect.left <= 0:
-        player_speed = random.choice(([1, 1], [1, -1]))
+    # if player_rect.top <= 0:
+    #     player_speed = random.choice(([-1, 1], [1, 1]))
+
+    # if player_rect.right >= WIDTH:
+    #     player_speed = random.choice(([-1, -1], [-1, 1]))
+
+    # if player_rect.left <= 0:
+    #     player_speed = random.choice(([1, 1], [1, -1]))
 
     main_display.blit(player, player_rect)
 
-    player_rect = player_rect.move(player_speed)
+    # player_rect = player_rect.move(player_speed)
 
     pygame.display.flip()
