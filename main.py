@@ -7,10 +7,13 @@ pygame.init()
 FPS = pygame.time.Clock()
 HEIGHT = 800
 WIDTH = 1200
+
+FONT = pygame.font.SysFont('Verdana', 20)
+
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_BLUE = (0, 0, 255)
-COLOR_YELLOW = (255, 255, 0)
+COLOR_GREEN = (0, 255, 0)
 
 main_display = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -30,21 +33,25 @@ def create_enemy():
     enemy_rect = pygame.Rect(WIDTH, random.randint(0, HEIGHT), *enemy_size)
     enemy_move = [random.randint(-6, 1), 0]
     return [enemy, enemy_rect, enemy_move]
-CREATE_ENEMY = pygame.USEREVENT + 1
-pygame.time.set_timer(CREATE_ENEMY, 1500)
 
 def create_bonus():
-    bonus_size = (20, 20)
+    bonus_size = (30, 30)
     bonus = pygame.Surface(bonus_size)
-    bonus.fill(COLOR_YELLOW)
+    bonus.fill(COLOR_GREEN)
     bonus_rect = pygame.Rect(random.randint(0, WIDTH), 0, *bonus_size)
-    bonus_move = [0, random.randint(1, 3)]
+    bonus_move = [0, random.randint(1, 5)]
     return [bonus, bonus_rect, bonus_move]
-CREATE_BONUS = CREATE_ENEMY + 1
-pygame.time.set_timer(CREATE_BONUS, 1500)
+
+CREATE_ENEMY = pygame.USEREVENT + 1
+pygame.time.set_timer(CREATE_ENEMY, 1500)
+CREATE_BONUS = pygame.USEREVENT + 2 # CREATE_ENEMY + 1
+pygame.time.set_timer(CREATE_BONUS, 3000)
 
 enemies = []
 bonuses = []
+
+score = 0
+
 playing = True
 
 while playing:
@@ -78,18 +85,26 @@ while playing:
         enemy[1] = enemy[1].move(enemy[2])
         main_display.blit(enemy[0], enemy[1])
 
+        if player_rect.colliderect(enemy[1]):
+            playing = False
+
     for bonus in bonuses:
         bonus[1] = bonus[1].move(bonus[2])
         main_display.blit(bonus[0], bonus[1])
 
+        if player_rect.colliderect(bonus[1]):
+            score += 1
+            bonuses.pop(bonuses.index(bonus))
+
+    main_display.blit(FONT.render(str(score), True, COLOR_WHITE), (WIDTH-50, 20))
     main_display.blit(player, player_rect)
 
     pygame.display.flip()
 
     for enemy in enemies:
-        if enemy[1].left < 0:
+        if enemy[1].right < 0:
             enemies.pop(enemies.index(enemy))
 
     for bonus in bonuses:
-        if bonus[1].bottom < 0:
+        if bonus[1].top > HEIGHT:
             bonuses.pop(bonuses.index(bonus))
