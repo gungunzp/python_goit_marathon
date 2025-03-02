@@ -17,9 +17,11 @@ COLOR_GREEN = (0, 255, 0)
 
 main_display = pygame.display.set_mode((WIDTH, HEIGHT))
 
+bg = pygame.image.load('background.png')
+
 player_size = (20, 20)
 player = pygame.Surface(player_size)
-player.fill(COLOR_WHITE)
+player.fill(COLOR_BLACK)
 player_rect = player.get_rect()
 player_move_down = [0, 1]
 player_move_up= [0, -1]
@@ -65,7 +67,8 @@ while playing:
         if event.type == CREATE_BONUS:
             bonuses.append(create_bonus())
     
-    main_display.fill(COLOR_BLACK)
+    # main_display.fill(COLOR_BLACK)
+    main_display.blit(bg, (0, 0))
 
     keys = pygame.key.get_pressed()
 
@@ -96,7 +99,7 @@ while playing:
             score += 1
             bonuses.pop(bonuses.index(bonus))
 
-    main_display.blit(FONT.render(str(score), True, COLOR_WHITE), (WIDTH-50, 20))
+    main_display.blit(FONT.render(str(score), True, COLOR_BLACK), (WIDTH-50, 20))
     main_display.blit(player, player_rect)
 
     pygame.display.flip()
