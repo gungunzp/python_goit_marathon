@@ -13,8 +13,6 @@ FONT = pygame.font.SysFont('Verdana', 20)
 
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
-COLOR_BLUE = (0, 0, 255)
-COLOR_GREEN = (0, 255, 0)
 
 main_display = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -36,17 +34,16 @@ player_move_left = [-4, 0]
 
 def create_enemy():
     enemy_size = (30, 30)
-    enemy = pygame.Surface(enemy_size)
-    enemy.fill(COLOR_BLUE)
-    enemy_rect = pygame.Rect(WIDTH, random.randint(0, HEIGHT), *enemy_size)
+    enemy = pygame.image.load('enemy.png').convert_alpha()
+    enemy_rect = pygame.Rect(WIDTH, random.randint(100, HEIGHT-100), *enemy_size)
     enemy_move = [random.randint(-8, -4), 0]
     return [enemy, enemy_rect, enemy_move]
 
 def create_bonus():
     bonus_size = (30, 30)
-    bonus = pygame.Surface(bonus_size)
-    bonus.fill(COLOR_GREEN)
-    bonus_rect = pygame.Rect(random.randint(0, WIDTH), 0, *bonus_size)
+    bonus = pygame.image.load('bonus.png').convert_alpha()
+    bonus_rect = pygame.Rect(random.randint(100, WIDTH-100), 0, *bonus_size)
+    # bonus_rect = pygame.Rect(random.randint(0, WIDTH), 0, (bonus.get_width(), bonus.get_height()))
     bonus_move = [0, random.randint(4, 8)]
     return [bonus, bonus_rect, bonus_move]
 
